@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 785b15f90a2e8904898e593c2afd2d22
+guid: ac82f7143a176734d91d2574d1420fae
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -65,11 +65,11 @@ ModelImporter:
     100118: RightToe_End
     100120: RightToeBase
     100122: RightUpLeg
-    100124: Shield_joint
-    100126: Spine
-    100128: Spine1
-    100130: Spine2
-    100132: //RootNode
+    100124: //RootNode
+    100126: Shield_joint
+    100128: Spine
+    100130: Spine1
+    100132: Spine2
     100134: Sword_joint
     400000: Head
     400002: HeadTop_End
@@ -133,13 +133,13 @@ ModelImporter:
     400118: RightToe_End
     400120: RightToeBase
     400122: RightUpLeg
-    400124: Shield_joint
-    400126: Spine
-    400128: Spine1
-    400130: Spine2
-    400132: //RootNode
+    400124: //RootNode
+    400126: Shield_joint
+    400128: Spine
+    400130: Spine1
+    400132: Spine2
     400134: Sword_joint
-    7400000: Attack_Front
+    7400000: Roll_Right
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -169,18 +169,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack_Front
+      name: Roll_Right
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 45
+      lastFrame: 76
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0

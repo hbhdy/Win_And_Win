@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b816312c884ab8d4ebb9a3d3f48ac058
+guid: 553b53db63f4654498dfb197adcded94
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -139,7 +139,7 @@ ModelImporter:
     400130: Spine2
     400132: //RootNode
     400134: Sword_joint
-    7400000: Attack_Jump
+    7400000: Run_Left
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -169,10 +169,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack_Jump
+      name: Run_Left
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 70
+      lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
