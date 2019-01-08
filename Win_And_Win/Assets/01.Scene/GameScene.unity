@@ -127,7 +127,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.2
-  m_Speed: 3
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 200
@@ -151,9 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hulkState: 0
-  traceDist: 200
-  attackDist: 2
-  zombieMoveLimit: 0
+  traceDist: 30
+  attackDistPowerHook: 2.5
 --- !u!1001 &82675521
 Prefab:
   m_ObjectHideFlags: 0
@@ -192,6 +191,18 @@ Prefab:
     - target: {fileID: 4393312513602950, guid: d42525fa742e4ee4a8ce26cae326c003, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761846710859336, guid: d42525fa742e4ee4a8ce26cae326c003, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761846710859336, guid: d42525fa742e4ee4a8ce26cae326c003, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761846710859336, guid: d42525fa742e4ee4a8ce26cae326c003, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d42525fa742e4ee4a8ce26cae326c003, type: 2}
