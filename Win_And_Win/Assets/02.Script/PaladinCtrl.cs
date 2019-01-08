@@ -21,7 +21,7 @@ public class PaladinCtrl : MonoBehaviour
     // 캐릭터 회전 속도 변수
     public float rotationSpeed = 100.0f;
     // 캐릭터 이동 거리를 위한 변수
-    public Vector3 movement;
+    private Vector3 movement;
 
     // 캐릭터의 위치값을 위한 변수
     [HideInInspector] public float h = 0.0f;
@@ -35,8 +35,7 @@ public class PaladinCtrl : MonoBehaviour
         playerRigidbody = this.GetComponent<Rigidbody>();
 
         // Animator 컴포넌트 할당
-        animator = this.transform.GetChild(0).GetComponent<Animator>();
-       
+        animator = this.transform.GetChild(0).GetComponent<Animator>();    
     }
 
     void Start()
@@ -167,3 +166,6 @@ public class PaladinCtrl : MonoBehaviour
         }
     }
 }
+
+
+// 추후 if문 -> switch문으로 교체!
