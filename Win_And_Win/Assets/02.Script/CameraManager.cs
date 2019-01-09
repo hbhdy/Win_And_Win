@@ -30,6 +30,7 @@ namespace HSS
         float smoothYvelocity;
         public float lookAngle;
         public float tiltAngle;
+        float h;
 
         public void Init(Transform t)
         {
@@ -41,13 +42,20 @@ namespace HSS
 
         public void Tick(float d)
         {
-            float h = Input.GetAxis("Mouse X");
+                 
+            if (Input.GetButton("CameraLeft")){
+                 h = -1;
+            }
+            else if(Input.GetButton("CameraRight"))
+            {
+                h = 1;          
+            }
             float v = Input.GetAxis("Mouse Y");
 
             float targetSpeed = mouseSpeed;
-            //float c_h = Input.GetAxis()
             FollowTarget(d);
             HandleRotations(d, v, h, targetSpeed);
+            h = 0;
         }
 
         void FollowTarget(float d)

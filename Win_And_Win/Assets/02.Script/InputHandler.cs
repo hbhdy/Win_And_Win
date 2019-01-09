@@ -8,7 +8,12 @@ namespace HSS
     {
         float vertical;
         float horizontal;
-        bool runInput;
+        // 달리기 키 
+        bool LeftShiftInput;
+
+        bool aKey, sKey;
+        float aKey_axis;
+        float sKey_axis;
 
         StateManager states;
         CameraManager camManager;
@@ -47,7 +52,24 @@ namespace HSS
         {
             vertical = Input.GetAxis("Vertical");
             horizontal = Input.GetAxis("Horizontal");
-            runInput = Input.GetButton("RunInput");
+
+            // 왼쪽 쉬프트 키 누를 시 달리기 애니메이션으로 교체(속도 업)
+            LeftShiftInput = Input.GetButton("RunInput");
+ 
+            // 기본적으로 A키를 입력 받는다.
+            aKey = Input.GetButtonDown("AKey");
+            // 키 클릭의 딜레이를 보완함
+            aKey_axis = Input.GetAxis("AKey");
+            if (aKey_axis != 0)
+                aKey = true;
+
+            // 기본적으로 S 키를 입력 받는다.
+            sKey = Input.GetButtonDown("SKey");
+            // 키 클릭의 딜레이를 보완함
+            sKey_axis = Input.GetAxis("SKey");
+            if (sKey_axis != 0)
+                sKey = true;
+
         }
 
         void UpdateStates()
@@ -61,7 +83,7 @@ namespace HSS
             float m = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
             states.moveAmount = Mathf.Clamp01(m);
 
-            if (runInput)
+            if (LeftShiftInput)
             {
                 states.run = (states.moveAmount > 0);                
             }
@@ -69,6 +91,9 @@ namespace HSS
             {
                 states.run = false;
             }
+
+            states.aKey = aKey;
+            states.sKey = sKey;
         }
     }
 
