@@ -139,7 +139,7 @@ ModelImporter:
     400130: Spine2
     400132: //RootNode
     400134: Sword_joint
-    7400000: Attack_Horizontal_Cutting
+    7400000: attack_3
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -169,7 +169,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack_Horizontal_Cutting
+      name: attack_3
       takeName: mixamo.com
       firstFrame: 0
       lastFrame: 52
