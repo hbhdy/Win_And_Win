@@ -234,6 +234,7 @@
   <ItemGroup>
     <Compile Include="Assets\02.Script\AnimatorHook.cs" />
     <Compile Include="Assets\02.Script\CameraManager.cs" />
+    <Compile Include="Assets\02.Script\EnemyTarget.cs" />
     <Compile Include="Assets\02.Script\Helper.cs" />
     <Compile Include="Assets\02.Script\InputHandler.cs" />
     <Compile Include="Assets\02.Script\KeepBool.cs" />

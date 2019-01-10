@@ -15,12 +15,14 @@ namespace HSS
         public float moveAmount;
         public Vector3 moveDir;
         public bool aKey, sKey;
+        public bool rollInput;
 
         [Header("Stats")]
         public float moveSpeed = 2;
         public float runSpeed = 3.5f;
         public float rotateSpeed = 5;
         public float toGround = 0.5f;
+        public float rollSpeed = 1;
 
         [Header("States")]
         public bool run;
@@ -28,7 +30,10 @@ namespace HSS
         public bool lockOn;
         public bool inAction;
         public bool canMove;
-        //public bool isTwoHanded;-------------------------------------------
+        
+
+        [Header("Other")]
+        public EnemyTarget lockOnTarget;
 
         [HideInInspector]
         public Animator animator;
@@ -108,6 +113,9 @@ namespace HSS
             if (!canMove)
                 return;
 
+            a_hook.rootMotionMultiplier = 1;
+            HandleRolls();
+            
             animator.applyRootMotion = false;
 
             rigid.drag = (moveAmount > 0 || onGround == false) ? 0 : 4;
@@ -117,27 +125,30 @@ namespace HSS
             if (run)
             {
                 targetSpeed = runSpeed;
-                lockOn = false;
+
+                // LookOn한 상태에서 달리면 룩온 해제
+                //lockOn = false;
             }
 
             if (onGround)
                 rigid.velocity = moveDir * (targetSpeed * moveAmount);
 
-            if (!lockOn)
-            {
-                Vector3 targetDir = moveDir;
-                targetDir.y = 0;
-                if (targetDir == Vector3.zero)
-                {
-                    targetDir = transform.forward;
-                }
+            Vector3 targetDir = (lockOn == false) ? moveDir : lockOnTarget.transform.position - transform.position;
+            targetDir.y = 0;
 
-                Quaternion tr = Quaternion.LookRotation(targetDir);
-                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, delta * moveAmount * rotateSpeed);
-                transform.rotation = targetRotation;
+            if (targetDir == Vector3.zero)
+                targetDir = transform.forward;
 
-            }
-            HandleMovementAnmations();
+            Quaternion tr = Quaternion.LookRotation(targetDir);
+            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, delta * moveAmount * rotateSpeed);
+            transform.rotation = targetRotation;
+
+            animator.SetBool("lockOn", lockOn);
+
+            if (lockOn == false)
+                HandleMovementAnmations();
+            else
+                HandleLockOnMovementAnimation(moveDir);
         }
 
         public void DetectAction()
@@ -161,7 +172,6 @@ namespace HSS
             animator.CrossFade(targetAnim, 0.2f);
         }
 
-
         public void Tick(float d)
         {
             delta = d;
@@ -169,10 +179,62 @@ namespace HSS
             animator.SetBool("onGround", onGround);
         }
 
+        void HandleRolls()
+        {
+            if (!rollInput)
+                return;
+
+            float v = vertical;
+            float h = horizontal;
+            //v = (moveAmount > 0.3f) ? 1 : 0;
+            //h = 0;
+
+            //if (lockOn == false)
+            //{
+            //    v = (moveAmount > 0.3f) ? 1 : 0;
+            //    h = 0;
+            //}
+            //else
+            //{
+            //    if (Mathf.Abs(v) < 0.3f)
+            //        v = 0;
+            //    if (Mathf.Abs(h) < 0.3f)
+            //        h = 0;
+            //}
+
+            //if (v != 0)
+            //{
+            //    if (moveDir == Vector3.zero)
+            //        moveDir = transform.forward;
+            //    Quaternion targetRot = Quaternion.LookRotation(moveDir);
+            //    transform.rotation = targetRot;
+            //}
+
+            //a_hook.rootMotionMultiplier = rollSpeed;
+
+            //animator.SetFloat("Vertical", v);
+            //animator.SetFloat("Horizontal", h);
+
+            //canMove = false;
+            //inAction = true;
+            animator.CrossFade("Roll_Forword", 0.2f);
+
+        }
+
         void HandleMovementAnmations()
         {
             animator.SetBool("run", run);
             animator.SetFloat("Vertical", moveAmount, 0.4f, delta);
+        }
+
+        void HandleLockOnMovementAnimation(Vector3 moveDir)
+        {
+            Vector3 relativeDir = transform.InverseTransformDirection(moveDir);
+            float h = relativeDir.x;
+            float v = relativeDir.z;
+
+            animator.SetFloat("Vertical", v, 0.2f, delta);
+            animator.SetFloat("Horizontal", h, 0.2f, delta);
         }
 
         public bool OnGround()

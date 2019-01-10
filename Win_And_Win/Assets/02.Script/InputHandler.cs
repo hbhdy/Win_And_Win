@@ -15,6 +15,9 @@ namespace HSS
         float aKey_axis;
         float sKey_axis;
 
+        bool leftAxisDown;
+        bool rightAxisDown;
+
         StateManager states;
         CameraManager camManager;
 
@@ -70,6 +73,8 @@ namespace HSS
             if (sKey_axis != 0)
                 sKey = true;
 
+            rightAxisDown = Input.GetButtonUp("LockOn");
+          
         }
 
         void UpdateStates()
@@ -83,17 +88,30 @@ namespace HSS
             float m = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
             states.moveAmount = Mathf.Clamp01(m);
 
-            if (LeftShiftInput)
-            {
-                states.run = (states.moveAmount > 0);                
-            }
-            else
-            {
-                states.run = false;
-            }
+
+            states.rollInput = LeftShiftInput;
+            //if (LeftShiftInput)
+            //{
+            //    states.run = (states.moveAmount > 0);                
+            //}
+            //else
+            //{
+            //    states.run = false;
+            //}
 
             states.aKey = aKey;
             states.sKey = sKey;
+
+            if (rightAxisDown)
+            {
+                
+                states.lockOn = !states.lockOn;
+
+                if (states.lockOnTarget == null)              
+                    states.lockOn = false;
+                camManager.lockOnTarget = states.lockOnTarget.transform;
+                camManager.lockOn = states.lockOn;
+            }
         }
     }
 

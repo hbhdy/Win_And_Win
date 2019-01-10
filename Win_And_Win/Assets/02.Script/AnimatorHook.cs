@@ -9,6 +9,8 @@ namespace HSS
         Animator animator;
         StateManager states;
 
+        public float rootMotionMultiplier;
+
         public void Init(StateManager st)
         {
             states = st;
@@ -21,11 +23,13 @@ namespace HSS
                 return;
 
             states.rigid.drag = 0;
-            float multiplier = 1;
+
+            if (rootMotionMultiplier == 0)
+                rootMotionMultiplier = 1;
 
             Vector3 delta = animator.deltaPosition;
             delta.y = 0;
-            Vector3 v = (delta * multiplier) / states.delta;
+            Vector3 v = (delta * rootMotionMultiplier) / states.delta;
             states.rigid.velocity = v;
         }
 
