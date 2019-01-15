@@ -10,12 +10,17 @@ namespace HSS
         float horizontal;
         // 달리기 키 
         bool LeftShiftInput;
-
-        bool aKey, sKey;
+        // 스페이스바 - 회피 키
+        bool rollInput;
+        float rollInput_axis;
+        // 공격 키 A, S, D
+        bool aKey, sKey, dKey;
         float aKey_axis;
         float sKey_axis;
+        float dKey_axis;
 
-        bool leftAxisDown;
+
+        //bool leftAxisDown;
         bool rightAxisDown;
 
         StateManager states;
@@ -73,8 +78,22 @@ namespace HSS
             if (sKey_axis != 0)
                 sKey = true;
 
+            // 기본적으로 D 키를 입력 받는다.
+            dKey = Input.GetButtonDown("DKey");
+            // 키 클릭의 딜레이를 보완함
+            dKey_axis = Input.GetAxis("DKey");
+            if (dKey_axis != 0)
+                dKey = true;
+
+            // 기본적으로 space 키를 입력 받는다.
             rightAxisDown = Input.GetButtonUp("LockOn");
-          
+            // 키 클릭의 딜레이를 보완함
+            rollInput = Input.GetButtonDown("Space");
+            rollInput_axis = Input.GetAxis("Space");
+            if (rollInput_axis != 0)
+                rollInput = true;
+
+
         }
 
         void UpdateStates()
@@ -89,18 +108,20 @@ namespace HSS
             states.moveAmount = Mathf.Clamp01(m);
 
 
-            states.rollInput = LeftShiftInput;
-            //if (LeftShiftInput)
-            //{
-            //    states.run = (states.moveAmount > 0);                
-            //}
-            //else
-            //{
-            //    states.run = false;
-            //}
+            states.rollInput = rollInput;
+
+            if (LeftShiftInput)
+            {
+                states.run = (states.moveAmount > 0);
+            }
+            else
+            {
+                states.run = false;
+            }
 
             states.aKey = aKey;
             states.sKey = sKey;
+            states.dKey = dKey;
 
             if (rightAxisDown)
             {

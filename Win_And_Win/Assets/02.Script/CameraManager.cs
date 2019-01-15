@@ -21,8 +21,9 @@ namespace HSS
         public Transform camTrans;
 
         float turnSmoothing = 0.1f;
-        public float minAngle = -35;
+        public float minAngle = -15;
         public float maxAngle = 35;
+
 
         float smoothX;
         float smoothY;
@@ -31,6 +32,7 @@ namespace HSS
         public float lookAngle;
         public float tiltAngle;
         float h;
+        float v;
 
         public void Init(Transform t)
         {
@@ -42,20 +44,30 @@ namespace HSS
 
         public void Tick(float d)
         {
-                 
-            if (Input.GetButton("CameraLeft")){
-                 h = -1;
-            }
-            else if(Input.GetButton("CameraRight"))
+
+            if (Input.GetButton("CameraLeft"))
             {
-                h = 1;          
+                h = -1;
             }
-            float v = Input.GetAxis("Mouse Y");
+            else if (Input.GetButton("CameraRight"))
+            {
+                h = 1;
+            }
+
+            if (Input.GetButton("CameraUp"))
+            {
+                v = -1;
+            }
+            else if (Input.GetButton("CameraDown"))
+            {
+                v = 1;
+            }
 
             float targetSpeed = mouseSpeed;
             FollowTarget(d);
             HandleRotations(d, v, h, targetSpeed);
             h = 0;
+            v = 0;
         }
 
         void FollowTarget(float d)
@@ -78,16 +90,17 @@ namespace HSS
                 smoothY = v;
             }
 
+            // 룩온X, 회전 값 계산 및 적용 부분
+            lookAngle += smoothX * targetSpeed;
             tiltAngle -= smoothY * targetSpeed;
             tiltAngle = Mathf.Clamp(tiltAngle, minAngle, maxAngle);
             pivot.localRotation = Quaternion.Euler(tiltAngle, 0, 0);
-           
 
+            // 룩온 했을때 회전 값 계산 및 적용 부분
             if (lockOn && lockOnTarget != null)
             {
                 Vector3 targetDir = lockOnTarget.position - transform.position;
                 targetDir.Normalize();
-                //targetDir.y = 0;
 
                 if (targetDir == Vector3.zero)
                     targetDir = transform.forward;
@@ -96,9 +109,9 @@ namespace HSS
                 lookAngle = transform.eulerAngles.y;
                 return;
             }
-            
+
             transform.rotation = Quaternion.Euler(0, lookAngle, 0);
-           
+
         }
 
         public static CameraManager singleton;

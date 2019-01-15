@@ -14,7 +14,7 @@ namespace HSS
         public float horizontal;
         public float moveAmount;
         public Vector3 moveDir;
-        public bool aKey, sKey;
+        public bool aKey, sKey, dKey;
         public bool rollInput;
 
         [Header("Stats")]
@@ -156,13 +156,15 @@ namespace HSS
             if (canMove == false)
                 return;
 
-            if (aKey == false && sKey == false )
+            if (aKey == false && sKey == false && dKey == false)
                 return;
             string targetAnim = null;   
             if (aKey)
-                targetAnim = "attack_2";
+                targetAnim = "Attack1";
             if (sKey)
-                targetAnim = "attack_3";        
+                targetAnim = "Attack2";
+            if (dKey)
+                targetAnim = "Attack3";
 
             if (string.IsNullOrEmpty(targetAnim))
                 return;
@@ -186,38 +188,38 @@ namespace HSS
 
             float v = vertical;
             float h = horizontal;
-            //v = (moveAmount > 0.3f) ? 1 : 0;
-            //h = 0;
+            v = (moveAmount > 0.3f) ? 1 : 0;
+            h = 0;
 
-            //if (lockOn == false)
-            //{
-            //    v = (moveAmount > 0.3f) ? 1 : 0;
-            //    h = 0;
-            //}
-            //else
-            //{
-            //    if (Mathf.Abs(v) < 0.3f)
-            //        v = 0;
-            //    if (Mathf.Abs(h) < 0.3f)
-            //        h = 0;
-            //}
+            if (lockOn == false)
+            {
+                v = (moveAmount > 0.3f) ? 1 : 0;
+                h = 0;
+            }
+            else
+            {
+                if (Mathf.Abs(v) < 0.3f)
+                    v = 0;
+                if (Mathf.Abs(h) < 0.3f)
+                    h = 0;
+            }
 
-            //if (v != 0)
-            //{
-            //    if (moveDir == Vector3.zero)
-            //        moveDir = transform.forward;
-            //    Quaternion targetRot = Quaternion.LookRotation(moveDir);
-            //    transform.rotation = targetRot;
-            //}
+            if (v != 0)
+            {
+                if (moveDir == Vector3.zero)
+                    moveDir = transform.forward;
+                Quaternion targetRot = Quaternion.LookRotation(moveDir);
+                transform.rotation = targetRot;
+            }
 
-            //a_hook.rootMotionMultiplier = rollSpeed;
+            a_hook.rootMotionMultiplier = rollSpeed;
 
-            //animator.SetFloat("Vertical", v);
-            //animator.SetFloat("Horizontal", h);
+            animator.SetFloat("Vertical", v);
+            animator.SetFloat("Horizontal", h);
 
-            //canMove = false;
-            //inAction = true;
-            animator.CrossFade("Roll_Forword", 0.2f);
+            canMove = false;
+            inAction = true;
+            animator.CrossFade("Rolls", 0.2f);
 
         }
 

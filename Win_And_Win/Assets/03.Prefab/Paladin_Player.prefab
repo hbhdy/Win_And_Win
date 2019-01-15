@@ -2217,22 +2217,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd4c8bd47e42d7448529f7d87445e76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeModel: {fileID: 0}
+  activeModel: {fileID: 1374636511186034}
   vertical: 0
   horizontal: 0
   moveAmount: 0
   moveDir: {x: 0, y: 0, z: 0}
   aKey: 0
   sKey: 0
+  rollInput: 0
   moveSpeed: 2
   runSpeed: 3.5
   rotateSpeed: 9
   toGround: 0.5
+  rollSpeed: 0.1
   run: 0
   onGround: 0
   lockOn: 0
   inAction: 0
   canMove: 0
+  lockOnTarget: {fileID: 0}
   animator: {fileID: 0}
   rigid: {fileID: 0}
   a_hook: {fileID: 0}
