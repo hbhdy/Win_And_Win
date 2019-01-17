@@ -13,12 +13,14 @@ namespace HSS
         public float mouseSpeed = 2;
 
         public Transform target;
-        public Transform lockOnTarget;
+        public EnemyTarget lockOnTarget;
+        public Transform lockOnTransform;
 
         [HideInInspector]
         public Transform pivot;
         [HideInInspector]
         public Transform camTrans;
+        StateManager states;
 
         float turnSmoothing = 0.1f;
         public float minAngle = -15;
@@ -34,9 +36,12 @@ namespace HSS
         float h;
         float v;
 
-        public void Init(Transform t)
+        bool usedRightAxis;
+
+        public void Init(StateManager st)
         {
-            target = t;
+            states = st;
+            target = st.transform;
 
             camTrans = Camera.main.transform;
             pivot = camTrans.parent;
@@ -64,6 +69,32 @@ namespace HSS
             }
 
             float targetSpeed = mouseSpeed;
+            if (lockOnTarget != null)
+            {
+                if (lockOnTransform == null)
+                {
+                    lockOnTransform = lockOnTarget.GetTarget();
+                    states.lockOnTransform = lockOnTransform;
+                }
+                //if (Mathf.Abs(c_h) > 0.6f)
+                //{
+                //    if(!usedRightAxis)
+                //    {
+                //        lockOnTransform = lockOnTarget.GetTarget((c_h>0));
+                //        states.lockOnTransform = lockOnTransform;
+                //        usedRightAxis = true;
+                //    }
+                //}
+            }
+
+            //if (usedRightAxis)
+            //{
+            //    if (Mathf.Abs(c_h) < 0.6f)
+            //    {
+            //        usedRightAxis = false;
+            //    }
+            //}
+
             FollowTarget(d);
             HandleRotations(d, v, h, targetSpeed);
             h = 0;
@@ -91,7 +122,7 @@ namespace HSS
             }
 
             // 룩온X, 회전 값 계산 및 적용 부분
-            lookAngle += smoothX * targetSpeed;
+            
             tiltAngle -= smoothY * targetSpeed;
             tiltAngle = Mathf.Clamp(tiltAngle, minAngle, maxAngle);
             pivot.localRotation = Quaternion.Euler(tiltAngle, 0, 0);
@@ -99,7 +130,7 @@ namespace HSS
             // 룩온 했을때 회전 값 계산 및 적용 부분
             if (lockOn && lockOnTarget != null)
             {
-                Vector3 targetDir = lockOnTarget.position - transform.position;
+                Vector3 targetDir = lockOnTransform.position - transform.position;
                 targetDir.Normalize();
 
                 if (targetDir == Vector3.zero)
@@ -110,6 +141,7 @@ namespace HSS
                 return;
             }
 
+            lookAngle += smoothX * targetSpeed;
             transform.rotation = Quaternion.Euler(0, lookAngle, 0);
 
         }

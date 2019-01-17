@@ -35,7 +35,7 @@ namespace HSS
             states.Init();
 
             camManager = CameraManager.singleton;
-            camManager.Init(this.transform);
+            camManager.Init(states);
         }
 
         // Update is called once per frame
@@ -130,7 +130,8 @@ namespace HSS
 
                 if (states.lockOnTarget == null)              
                     states.lockOn = false;
-                camManager.lockOnTarget = states.lockOnTarget.transform;
+                camManager.lockOnTarget = states.lockOnTarget;
+                states.lockOnTransform = camManager.lockOnTransform;
                 camManager.lockOn = states.lockOn;
             }
         }

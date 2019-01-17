@@ -34,6 +34,8 @@ namespace HSS
 
         [Header("Other")]
         public EnemyTarget lockOnTarget;
+        public Transform lockOnTransform;
+        public AnimationCurve roll_curve;
 
         [HideInInspector]
         public Animator animator;
@@ -113,9 +115,10 @@ namespace HSS
             if (!canMove)
                 return;
 
-            a_hook.rootMotionMultiplier = 1;
+            //a_hook.rootMotionMultiplier = 1;
+            a_hook.CloseRoll();
             HandleRolls();
-            
+
             animator.applyRootMotion = false;
 
             rigid.drag = (moveAmount > 0 || onGround == false) ? 0 : 4;
@@ -133,7 +136,9 @@ namespace HSS
             if (onGround)
                 rigid.velocity = moveDir * (targetSpeed * moveAmount);
 
-            Vector3 targetDir = (lockOn == false) ? moveDir : lockOnTarget.transform.position - transform.position;
+            Vector3 targetDir = (lockOn == false) ? moveDir
+                : (lockOnTransform != null) ? lockOnTransform.transform.position - transform.position
+                : moveDir;
             targetDir.y = 0;
 
             if (targetDir == Vector3.zero)
@@ -210,9 +215,15 @@ namespace HSS
                     moveDir = transform.forward;
                 Quaternion targetRot = Quaternion.LookRotation(moveDir);
                 transform.rotation = targetRot;
+                a_hook.InitForRoll();
+                a_hook.rootMotionMultiplier = rollSpeed;
+            }
+            else
+            {
+                a_hook.rootMotionMultiplier = 1.3f;
             }
 
-            a_hook.rootMotionMultiplier = rollSpeed;
+            //a_hook.rootMotionMultiplier = rollSpeed;
 
             animator.SetFloat("Vertical", v);
             animator.SetFloat("Horizontal", h);
@@ -220,6 +231,7 @@ namespace HSS
             canMove = false;
             inAction = true;
             animator.CrossFade("Rolls", 0.2f);
+            
 
         }
 
